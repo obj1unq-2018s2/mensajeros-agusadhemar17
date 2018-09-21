@@ -1,4 +1,8 @@
 import mensajeros.*
+import vehiculos.*
+import destinos.*
+import mensajeria.*
+import paquete.*
 
 test "La mensajeria tiene a neo como empleado si lo agregarmos" {
 	mensajeria.contratar(neo)
@@ -7,7 +11,130 @@ test "La mensajeria tiene a neo como empleado si lo agregarmos" {
 
 test "Si neo es empleado, Hay un mensajero que puede enviar el paquete" {
 	mensajeria.contratar(neo)
-	paquete.pagar()
-	paquete.destino(matrix)
+	//paquete.pagar()
+	paquete.destino(laMatrix)
 	assert.that(mensajeria.mensajeros().contains(neo))
+}
+
+//primera parte
+	
+
+test "Roberto va en Camion a la Matrix"{
+		roberto.pesoIndividual(90)
+		roberto.vehiculo (camion) 
+		camion.acoplados(1)
+		paquete.estaPago(true)
+		paquete.destino(laMatrix)
+		assert.equals(500, camion.peso())
+		assert.equals(590,roberto.peso())
+		assert.notThat(paquete.puedeSerEntregadoPor(roberto))
+		paquete.destino(puenteDeBrooklyn)
+		assert.that(paquete.puedeSerEntregadoPor(roberto))
+}
+
+test "Neo va Matrix"{
+		neo.tieneCredito(true)
+		paquete.estaPago(false)
+		paquete.destino(laMatrix)
+		assert.notThat(paquete.puedeSerEntregadoPor(neo))
+		
+		//Que neo con crédito no puede llevar un paquete que no está pago a la matrix.
+
+}
+
+
+//segunda parte 
+
+test "mensajeria"{
+	mensajeria.contratar(roberto)
+	mensajeria.contratar(neo)
+	mensajeria.contratar(chuckNorris)
+	assert.equals(900,mensajeria.pesoUltimoMensajero())
+	assert.that(mensajeria.esGrande())
+	mensajeria.despedir(roberto)
+	assert.equals(2, mensajeria.mensajeros().size())
+	assert.notThat(mensajeria.puedeSerEntregadoPorPrimero(paquete))
+	mensajeria.despedirATodos()
+	assert.that(mensajeria.mensajeros().isEmpty())
+}
+
+//tercera parte
+
+test "paquete Puede Ser Entregado"{
+	mensajeria.contratar(roberto)
+	mensajeria.contratar(neo)
+	mensajeria.contratar(chuckNorris)
+	paquete.estaPago(true)
+	paquete.destino(laMatrix)
+	roberto.pesoIndividual(90)
+	neo.tieneCredito(true)
+	assert.that(mensajeria.paquetePuedeSerEntregado(paquete))
+}
+test "Es Paquete Facil, todos son candidatos"{
+	mensajeria.contratar(roberto)
+	mensajeria.contratar(neo)
+	mensajeria.contratar(chuckNorris)
+	paquete.estaPago(true)
+	roberto.pesoIndividual(90)
+	roberto.vehiculo (camion) 
+	paquete.destino(puenteDeBrooklyn)
+	assert.that(mensajeria.esPaqueteFacil(paquete))
+	assert.that(mensajeria.candidatos().size()==3)
+}
+
+test "Tiene Sobrepeso"{
+	mensajeria.contratar(roberto)
+	mensajeria.contratar(neo)
+	mensajeria.contratar(chuckNorris)
+	camion.acoplados(5)
+	roberto.pesoIndividual(90)
+	roberto.vehiculo (camion) 
+	assert.that(mensajeria.tieneSobrepeso())
+}
+
+test "Envia y recibe paquetes"{
+	mensajeria.contratar(roberto)
+	mensajeria.contratar(neo)
+	mensajeria.contratar(chuckNorris)
+	paquete.estaPago(true)
+	roberto.pesoIndividual(90)
+	roberto.vehiculo (camion) 
+	paquete.destino(puenteDeBrooklyn)
+	mensajeria.recibirPaquete(paquete)
+	mensajeria.recibirPaquete(paquete)
+	mensajeria.enviarPaquete(paquete)
+	assert.equals(1,mensajeria.paquetesEnviados().size())
+}
+
+//cuarta parte
+	
+test "Recibe paquete y paquetito"{
+	
+	mensajeria.contratar(roberto)
+	mensajeria.contratar(neo)
+	mensajeria.contratar(chuckNorris)
+	roberto.pesoIndividual(90)
+	roberto.vehiculo (camion) 
+	paquete.estaPago(false)
+	mensajeria.recibirPaquete(paquete)
+	mensajeria.recibirPaquete(paquetito)
+	mensajeria.enviarTodosLosPosibles()
+	assert.equals(50,mensajeria.porcentajeEficacia())
+		
+}
+
+
+test "Recibe paqueton"{
+	
+	mensajeria.contratar(roberto)
+	mensajeria.contratar(neo)
+	mensajeria.contratar(chuckNorris)
+	roberto.pesoIndividual(90)
+	roberto.vehiculo (camion) 
+	mensajeria.recibirPaquete(paqueton)
+	mensajeria.enviarTodosLosPosibles()
+	assert.that(mensajeria.paquetePuedeSerEntregado(paqueton))
+	assert.that(mensajeria.paquetesEnviados().contains(paqueton))
+	assert.equals(100,mensajeria.porcentajeEficacia())
+	
 }
