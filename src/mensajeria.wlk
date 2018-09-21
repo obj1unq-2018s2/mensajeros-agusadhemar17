@@ -58,7 +58,7 @@ object mensajeria {
 	
 	method enviarTodosLosPosibles() {
 		paquetesRecibidos.forEach({ paquete => if (self.paquetePuedeSerEntregado(paquete)) self.enviarPaquete(paquete)})
-	}
+	} 
 	method paqueteMasCaro(){
 		return paquetesRecibidos.map({elemento=>elemento.precio()}.max())
 	}
@@ -66,4 +66,4 @@ object mensajeria {
 		return (paquetesEnviados.size() / paquetesTotales.size() *100).roundUp()
 	}//el porcentaje de paquetes que lograron ser enviados desde que empezó a funcionar. Debe devolver un número entero
 	
-}
+} 

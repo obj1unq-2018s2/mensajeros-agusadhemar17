@@ -29,7 +29,7 @@ object paqueton{
 	method pagar(monto){
 		totalPagado += monto
 	}
-}	
+}	 
 /*puede tener más de un destino y para poder enviarse todos los destinos tienen 
  * que autorizar al mensajero a pasar. 
  Su precio es 100$ por cada destino. 

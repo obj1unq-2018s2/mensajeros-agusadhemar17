@@ -6,10 +6,10 @@ object camion {
 		return 500 * acoplados
 	}
 }
-
+ 
 object bicicleta {
 
 	method peso() {
 		return 8
 	}
-}
+} 
